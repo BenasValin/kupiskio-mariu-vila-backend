@@ -1,0 +1,40 @@
+import { useEffect, useState } from "react";
+
+export default function useInsertData(path: string, body: any) {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+
+  useEffect(() => {
+
+    if (!path || !body) {
+      return;
+    }
+    
+    setLoading(true);
+    setSuccess(false);
+    
+    const insertData = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/${path}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+        if (!response.ok) {
+          throw new Error("Failed to insert data");
+        }
+        setSuccess(true);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    insertData();
+  }, [path, body]);
+
+  return { success, loading };
+}
