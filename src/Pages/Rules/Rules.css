@@ -1,0 +1,21 @@
+.rulesHeader {
+  color: var(--grey);
+  text-align: center;
+}
+.rulesContainer {
+  width: 100%;
+  max-width: var(--maxWidth);
+  margin: 10px auto;
+  padding: 0 10px;
+  box-sizing: border-box;
+}
+.rulesContainer > *,
+.rulesContainer > * > *,
+.rulesContainer > * > * > *,
+.rulesContainer > * > * > * > * {
+  color: var(--grey);
+}
+
+.rulesContainer ul li {
+  line-height: 1.8rem;
+}

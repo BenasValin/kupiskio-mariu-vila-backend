@@ -1,0 +1,32 @@
+.faqGrid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  max-width: 1200px;
+  gap: 64px;
+  margin: 48px auto;
+}
+.answer {
+  color: var(--grey);
+  margin: 0 16px;
+}
+.question {
+  background-color: var(--lighterSand);
+  color: var(--grey);
+  padding: 10px 16px;
+  border-radius: 32px;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+.faqIntro h3 {
+  font-weight: 450;
+  line-height: 2rem;
+  margin-bottom: 48px;
+}
+.faqContainer {
+  margin-bottom: 48px;
+}
+@media (max-width: 800px) {
+  .faqGrid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -11,6 +11,7 @@ export default function Cart() {
   const { cartSize, setCartSize } = useContext(CartSizeContext);
   const [coupon, setCoupon] = useState<string>("");
   const navigate = useNavigate();
+
   const getCartItems = () => {
     const items = localStorage.getItem("cart_products");
     if (!items) {
@@ -107,7 +108,7 @@ export default function Cart() {
 
   const applyCoupon = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/api/coupon`, {
+      const response = await fetch(`http://localhost:3000/api/apply-coupon`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -170,7 +171,7 @@ export default function Cart() {
             >
               <div className="flex items-center">
                 <img
-                  src={product.img || product.image || "/placeholder.jpg"}
+                  src={product.images[0] || "/placeholder.jpg"}
                   alt={product.title}
                   className="w-16 h-16 object-cover mr-4"
                 />
@@ -230,24 +231,7 @@ export default function Cart() {
             </div>
           ))}
 
-          <div className="mt-6 flex justify-between">
-            <div className="flex flex-col">
-              <p>Kupono kodas:</p>
-              <input
-                value={coupon}
-                onChange={(e) => {
-                  setCoupon(e.target.value);
-                }}
-                type="text"
-                className="border rounded px-2 py-1 w-30"
-              />
-              <button
-                onClick={() => applyCoupon()}
-                className="mt-4 bg-blue-600 text-white py-2 px-4 rounded w-full hover:bg-blue-700"
-              >
-                Pritaikyti
-              </button>
-            </div>
+          <div className="mt-6 flex justify-end">
             <div className="w-1/3">
               <div className="flex justify-between py-2">
                 <span>Subtotal:</span>

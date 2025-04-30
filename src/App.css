@@ -1,5 +1,153 @@
+@tailwind utilities;
+
 .hide-arrow[type="number"]::-webkit-inner-spin-button,
 .hide-arrow[type="number"]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+:root {
+  --lightBlue: hsl(73, 26%, 43%);
+  --darkBlue: hsl(74, 25%, 35%);
+  --orange: #f97c68;
+  --sand: hsl(48, 35%, 92%);
+  --green: #917056;
+  --grey: hsl(23, 17%, 36%);
+  --lighterSand: hsl(48, 50%, 94%);
+  --maxWidth: 1350px;
+}
+
+* {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+}
+body {
+  background-color: hsl(48, 35%, 92%);
+  z-index: 10;
+  box-sizing: border-box;
+}
+/* 
+* {
+  outline: 1px solid red;
+} */
+
+.fallbackContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  height: 180px;
+  width: 180px;
+}
+
+.loader {
+  height: 100px;
+  width: 100px;
+  border-radius: 50%;
+  border: 20px solid transparent;
+  border-top: 20px solid var(--lightBlue);
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.button {
+  background-color: var(--green);
+  border: none;
+  border-radius: 25px;
+  color: rgb(238, 235, 227);
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.button:active {
+  scale: 0.95;
+}
+.icon {
+  height: 100%;
+}
+.boxShadow {
+  box-shadow: 4px 4px 5px 0px rgba(0, 0, 0, 0.02);
+}
+.greyFont {
+  color: var(--grey);
+}
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+.bodySpacer {
+  padding-inline: 20px;
+}
+.selfAlignCenter {
+  margin: 0 auto;
+}
+.textAlignCenter {
+  text-align: center;
+}
+.paragraph {
+  font-size: 1.125rem;
+  line-height: 1.5em;
+  color: rgb(238, 235, 227);
+}
+.fontSize1 {
+  font-size: 1.25rem;
+}
+.fontSize2 {
+  font-size: 1.5rem;
+}
+.fontSize3 {
+  font-size: 2rem;
+}
+.fontSize4 {
+  font-size: 3rem;
+  font-weight: 600;
+  font-family: 600;
+  margin: 0.5rem 0;
+}
+.noMargin {
+  margin: 0;
+}
+@media (max-width: 1000px) {
+  .paragraph {
+    font-size: 1rem;
+  }
+  .fontSize1 {
+    font-size: 1.25rem;
+  }
+  .fontSize2 {
+    font-size: 1.75rem;
+  }
+  .fontSize3 {
+    font-size: 2rem;
+  }
+  .fontSize4 {
+    font-size: 2.5rem;
+    font-family: 600;
+  }
+}
+@media (max-width: 600px) {
+  .fontSize1 {
+    font-size: 1.1rem;
+  }
+  .fontSize2 {
+    font-size: 1.25rem;
+  }
+  .fontSize3 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  .fontSize4 {
+    font-size: 2rem;
+    font-family: 600;
+  }
 }

@@ -1,0 +1,73 @@
+.objectOfInteresContainer {
+  max-width: var(--maxWidth);
+  margin: 64px auto;
+  display: flex;
+  column-gap: 48px;
+  align-items: center;
+  row-gap: 24px;
+}
+.objectOfInterestInfoContainer {
+  display: flex;
+  flex-direction: column;
+}
+.objectOfInterestImages {
+  flex: 0 0 50%;
+}
+.objectOfInterestInfoContainer > * > * {
+  color: var(--grey);
+}
+.objectOfInterestTitle {
+  font-size: 2rem;
+  max-width: 500px;
+  margin-bottom: 0;
+}
+.objectOfInterestDescription {
+  line-height: 1.5rem;
+}
+.objectOfInterestIcons {
+  height: 100%;
+}
+.availabilityText {
+  height: 2rem;
+  align-items: center;
+  display: flex;
+  gap: 1rem;
+  margin: 8px 0;
+}
+
+.contactsHeader p {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.contactsHeader h4 {
+  margin: 0.5rem 0;
+}
+.reverseDirection {
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+.reverseDirection .objectOfInterestImages {
+  margin-left: auto;
+}
+@media (max-width: 850px) {
+  .objectOfInteresContainer {
+    flex-direction: column;
+  }
+  .objectOfInterestTitle {
+    font-size: 1.5rem;
+    max-width: 70vw;
+  }
+  .objectOfInterestAvailabilityContainer {
+    width: fit-content;
+    max-width: 80vw;
+  }
+  .objectOfInterestAvailabilityContainer h2 {
+    font-size: 1.2rem;
+  }
+  .apylinkesHeaderContainer {
+    height: 60vh;
+  }
+  .apylinkesHeaderContainer h4 {
+    padding-top: 5rem;
+  }
+}

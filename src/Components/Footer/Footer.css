@@ -1,0 +1,93 @@
+.mainFooterContainer {
+  background-color: var(--darkBlue);
+  display: flex;
+  justify-content: center;
+  padding-bottom: 3rem;
+  
+}
+
+.footerWrapper {
+  max-width: 1400px;
+  width: 100%;
+  display: grid;
+  
+}
+
+.footerContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  width: 90%;
+  margin: 2rem auto 0;
+}
+
+.footerContactsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.footerContacts {
+  display: grid;
+  grid-template-columns: auto auto;
+  row-gap: 1rem;
+  align-items: center;
+  margin: 2rem 0;
+}
+.footerAdress,
+.footerRekvizitai {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 1rem;
+}
+
+.footerNav {
+  display: flex;
+  flex-direction: column;
+}
+
+.footerNav > * {
+  text-decoration: none;
+  line-height: 2rem;
+}
+
+.footerContainer iframe {
+  width: 100% !important;
+  border: 0;
+  border-radius: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .footerContainer {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .footerContacts {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .footerContainer iframe {
+    height: 250px;
+  }
+}
+
+@media (max-width: 300px) {
+  .footerContainer iframe {
+    width: 250px !important;
+    margin: 0 auto;
+  }
+}
+.socialMedia {
+  margin: 1rem 0rem;
+  display: flex;
+  gap: 0.5rem;
+}
+.adressAndCompanyInfo {
+  display: flex;
+  gap: 40px;
+}

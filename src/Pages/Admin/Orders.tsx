@@ -1,5 +1,6 @@
 import { useState } from "react";
 import useFetchData from "@/Hooks/useFetchData";
+import { serverURL } from "../../config.ts";
 
 export default function Orders() {
   const [deleteButtonLoading, setDeleteButtonLoading] = useState(false);
@@ -16,7 +17,7 @@ export default function Orders() {
   const updateOrderStatus = async (orderId: number, step: number) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/admin/update-order-status/${orderId}/${step}`,
+        `${serverURL}/api/admin/update-order-status/${orderId}/${step}`,
         {
           method: "POST",
           headers: {
@@ -37,7 +38,7 @@ export default function Orders() {
     try {
       setDeleteButtonLoading(true);
       const response = await fetch(
-        `http://localhost:3000/api/admin/delete-order/${orderId}`,
+        `${serverURL}/api/admin/delete-order/${orderId}`,
         {
           method: "DELETE",
           headers: {

@@ -45,12 +45,17 @@ router.post("/register", async (req, res) => {
   }
 });
 
+const registerUser = () => {
+  console.log("registered");
+  registerNewUser("PrieMariu231", "Administratorius");
+};
+
 // ------- LOGIN -------
 const loginUser = async (password, username) => {
   try {
+    console.log("labas");
     const collection = client.db(dbname).collection("users");
     const user = await collection.findOne({ username });
-
     if (!user) return false;
 
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -213,10 +218,8 @@ router.get("/verify-jwt", async (req, res) => {
 
         const newAccessToken = generateAccessToken({ name: user.name });
 
-       
         const tokenRecord = await getRefreshToken(refreshToken);
 
-       
         const expiresSoon =
           tokenRecord.expiry_date - Date.now() < 60 * 60 * 1000; // 1 hour
 
@@ -226,7 +229,7 @@ router.get("/verify-jwt", async (req, res) => {
           });
           sendTokenCookie(res, newAccessToken, newRefreshToken);
         } else {
-          sendTokenCookie(res, newAccessToken, refreshToken); 
+          sendTokenCookie(res, newAccessToken, refreshToken);
         }
 
         res.json({ isAuthenticated: true, message: "Token refreshed" });

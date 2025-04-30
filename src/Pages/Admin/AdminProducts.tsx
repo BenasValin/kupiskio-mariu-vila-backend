@@ -2,9 +2,9 @@ import { useState, useRef, useEffect, ChangeEvent } from "react";
 import useFetchData from "@/Hooks/useFetchData";
 import useInsertData from "@/Hooks/useInsertData";
 import { ReactNode } from "react";
-import { File } from "buffer";
-import { parse } from "path";
-
+import { serverURL } from "../../config.ts";
+import PhotoGallery from "./Components/PhotoGallery.tsx";
+import { Trash2 } from "lucide-react";
 function Modal({
   children,
   setModalOpen,
@@ -34,8 +34,6 @@ export default function AdminProducts() {
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
   const categoryRef = useRef<HTMLSelectElement>(null);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>("");
   const [productToAdd, setProductToAdd] = useState<any>(null);
   const [formError, setFormError] = useState<string>("");
 
@@ -100,16 +98,13 @@ export default function AdminProducts() {
     const updateProduct = async (product: any, refresh: Function) => {
       try {
         delete product._id;
-        const response = await fetch(
-          `http://localhost:3000/shop/update-product/`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ product }),
-          }
-        );
+        const response = await fetch(`${serverURL}/shop/update-product/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ product }),
+        });
         if (!response.ok) {
           console.error("Failed to update product data");
         }
@@ -119,38 +114,6 @@ export default function AdminProducts() {
         refresh();
         setNeedsSaving(false);
       }
-    };
-
-    const setImagePreview = (e: React.ChangeEvent<HTMLInputElement>) => {
-      if (!e.target.files || e.target.files.length === 0) return;
-
-      const files = e.target.files;
-      const previews: string[] = [];
-
-      let processedFiles = 0;
-
-      Array.from(files).forEach((file) => {
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-          if (typeof reader.result === "string") {
-            previews.push(reader.result);
-            processedFiles++;
-
-            // When all files are processed, update the state
-            if (processedFiles === files.length) {
-              setActiveProduct({
-                ...activeProduct,
-                preview: previews,
-              });
-            }
-          }
-        };
-
-        reader.readAsDataURL(file);
-      });
-
-      setNeedsSaving(true);
     };
 
     const handleUpdateActiveProduct = (
@@ -185,6 +148,22 @@ export default function AdminProducts() {
       setNeedsSaving(true);
     };
 
+    const [open, setOpen] = useState<boolean>(false);
+
+    const onConfirm = (selectedImages: string[]) => {
+      setActiveProduct({ ...activeProduct, images: selectedImages });
+      console.log(selectedImages);
+      setNeedsSaving(true);
+    };
+
+    const deselectImage = (image: string) => {
+      const images = activeProduct.images;
+      setActiveProduct({
+        ...activeProduct,
+        images: images.filter((img: string) => img !== image),
+      });
+      setNeedsSaving(true);
+    };
     return (
       <div className="mt-4">
         {products.data.map((product) => (
@@ -241,81 +220,83 @@ export default function AdminProducts() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div>
                     <div className="w-full h-90 bg-white border rounded-md">
-                      {activeProduct.preview ? (
-                        <img
-                          src={activeProduct.preview[0]}
-                          alt=""
-                          className="h-full"
-                        />
+                      <PhotoGallery
+                        initialSelected={activeProduct.images}
+                        open={open}
+                        setOpen={setOpen}
+                        onConfirm={onConfirm}
+                      ></PhotoGallery>
+                      {activeProduct.images.length > 0 ? (
+                        <div className="relative h-full">
+                          <button
+                            onClick={() => {
+                              deselectImage(activeProduct.images[0]);
+                            }}
+                            className="bg-gray-100 w-7 h-7 text-white rounded-full flex justify-center absolute items-center right-0 top-0 cursor-pointer"
+                          >
+                            <Trash2 color="grey" size={20} />
+                          </button>
+                          <img
+                            onClick={() => {
+                              setOpen(true);
+                            }}
+                            src={activeProduct.images[0]}
+                            alt=""
+                            className="h-full z-10 cursor-pointer"
+                          />
+                        </div>
                       ) : (
                         <>
-                          <label
-                            className="w-full h-full flex items-center justify-center cursor-pointer p-2 bg-gray-200"
-                            htmlFor="imageInput"
+                          <button
+                            className="w-full h-full bg-gray-200 cursor-pointer"
+                            onClick={() => {
+                              setOpen(true);
+                            }}
                           >
-                            Insert image
-                          </label>
-                          <input
-                            type="file"
-                            id="imageInput"
-                            multiple
-                            className="text-transparent"
-                            onChange={(e) => setImagePreview(e)}
-                          />
+                            Select images
+                          </button>
                         </>
                       )}
                     </div>
                     <div className="flex flex-row gap-2 mt-2 w-full flex-wrap">
-                      {activeProduct.preview &&
-                        activeProduct.preview.length > 1 &&
-                        activeProduct.preview.map(
-                          (image: string, index: number) => {
+                      {activeProduct.images &&
+                        activeProduct.images.length > 1 &&
+                        activeProduct.images
+                          .slice(1)
+                          .map((image: string, index: number) => {
                             return (
                               <div className="relative">
-                                <button className="bg-red-600 w-7 h-7 text-white rounded-full flex justify-center absolute items-center right-0 top-0 cursor-pointer">
-                                  X
+                                <button
+                                  onClick={() => {
+                                    deselectImage(image);
+                                  }}
+                                  className="bg-gray-100 w-7 h-7 text-white rounded-full flex justify-center absolute items-center right-0 top-0 cursor-pointer"
+                                >
+                                  <Trash2 color="grey" size={20} />
                                 </button>
                                 <img
                                   src={image}
-                                  className="max-h-50"
+                                  onClick={() => setOpen(true)}
+                                  className="max-h-50 cursor-pointer"
                                   alt={`${index}`}
                                 />
                               </div>
                             );
-                          }
-                        )}
-                      {activeProduct.preview &&
-                        activeProduct.preview.length >= 1 && (
-                          <div>
-                            <label
-                              className=" flex items-center justify-center cursor-pointer p-2 bg-gray-200 h-40 w-40"
-                              htmlFor="imageInput"
-                            >
-                              +
-                            </label>
-                            <input
-                              type="file"
-                              id="imageInput"
-                              multiple
-                              className="text-transparent"
-                              onChange={(e) => setImagePreview(e)}
-                            />
-                          </div>
-                        )}
+                          })}
                     </div>
                   </div>
 
                   <div>
                     <h4 className="text-sm font-medium mb-1">Title</h4>
                     <textarea
-                      className="text-sm text-gray-600"
+                      className="text-xl w-full"
                       id="title"
                       value={activeProduct.title}
                       onChange={(e) => handleUpdateActiveProduct(e)}
                     ></textarea>
                     <h4 className="text-sm font-medium mb-1">Description</h4>
                     <textarea
-                      className="text-sm text-gray-600"
+                      className="w-full min-h-50"
                       id="description"
                       value={activeProduct.description}
                       onChange={(e) => handleUpdateActiveProduct(e)}
@@ -326,6 +307,7 @@ export default function AdminProducts() {
                     >
                       Category
                     </label>
+                    <RichTextEditor></RichTextEditor>
                     <select
                       id="category"
                       className="w-full p-2 border border-gray-300 rounded"
@@ -443,22 +425,8 @@ export default function AdminProducts() {
     if (titleRef.current) titleRef.current.value = "";
     if (descriptionRef.current) descriptionRef.current.value = "";
     if (priceRef.current) priceRef.current.value = "";
-    setImageFile(null);
-    setImagePreview("");
     setProductToAdd(null);
     setFormError("");
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
   };
 
   const validateForm = () => {
@@ -483,10 +451,6 @@ export default function AdminProducts() {
     formData.append("price", priceRef.current!.value);
     formData.append("category", categoryRef.current?.value || "Pasta");
 
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
-
     // To match your current implementation structure
     // You might need to adjust this based on how your API expects data
     setProductToAdd({
@@ -494,14 +458,13 @@ export default function AdminProducts() {
       description: descriptionRef.current?.value || "",
       price: parseFloat(priceRef.current!.value),
       category: categoryRef.current?.value || "Pasta",
-      image: imageFile, // Your API should handle File objects
     });
   };
 
   const handleDeleteProduct = async (productId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/admin/delete-product/${productId}`,
+        `${serverURL}/api/admin/delete-product/${productId}`,
         {
           method: "DELETE",
           headers: {
@@ -613,38 +576,6 @@ export default function AdminProducts() {
                     </select>
                   </div>
                 </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium mb-1">
-                  Product Image
-                </label>
-                <div
-                  className={`border-2 border-dashed border-gray-300 rounded-lg h-48 flex items-center justify-center mb-2 ${
-                    imagePreview ? "bg-white" : "bg-gray-50"
-                  }`}
-                >
-                  {imagePreview ? (
-                    <img
-                      src={imagePreview}
-                      alt="Product preview"
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  ) : (
-                    <div className="text-center p-4 text-gray-500">
-                      <p>Drag and drop an image here or click to upload</p>
-                      <p className="text-xs mt-1">PNG, JPG up to 5MB</p>
-                    </div>
-                  )}
-                </div>
-                <input
-                  type="file"
-                  id="productImage"
-                  name="productImage"
-                  accept="image/png, image/jpeg"
-                  className="w-full text-sm"
-                  onChange={handleImageChange}
-                />
               </div>
             </div>
 

@@ -1,0 +1,400 @@
+.landingPageContainer {
+  height: 100vh;
+  background: linear-gradient(
+      to right,
+      hsla(90, 10%, 20%, 0.25),
+      hsla(94, 10%, 35%, 0.1)
+    ),
+    url(../../Images/decorationImages/pastatas.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  top: 50%;
+}
+.titleContainer {
+  position: absolute;
+  max-width: var(--maxWidth);
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-wrap: wrap;
+}
+.shortDescriptionText {
+  display: block;
+  opacity: 0.9;
+  max-width: 700px;
+}
+.shortDescriptionTitle {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.title {
+  font-size: 5em;
+  color: #fff;
+  margin: 1rem 0;
+  width: fit-content;
+  max-width: 800px;
+  font-weight: 600;
+}
+.servicesTitle {
+  color: var(--grey);
+  text-align: center;
+  font-size: 3rem;
+  margin: 120px auto 50px;
+  font-weight: 500;
+}
+.secondaryMainTitle {
+  color: #f2f2f2;
+  font-size: 1.5rem;
+}
+.shortDescriptionContainer {
+  text-align: center;
+  display: flex;
+  height: fit-content;
+  width: 100%;
+  background-color: var(--lightBlue);
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 30px;
+}
+.services {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 30px;
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+  width: 100%;
+}
+.outdoorActivitiesButton {
+  margin-top: auto !important;
+  transition: opacity 0.3s;
+  margin-bottom: 30px;
+}
+.outdoorActivitiesButton:hover {
+  opacity: 80%;
+}
+.housesIconContainer {
+  height: 1.5rem;
+  display: flex;
+  margin: 1rem 0;
+  gap: 2rem;
+}
+.greenDiv {
+  background-color: var(--lightBlue);
+  width: 100%;
+}
+.housesIcon {
+  height: 100%;
+  margin-right: 8px;
+}
+.housesIconContainer > * {
+  color: var(--grey);
+  font-size: 1.2rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+.housesContainer {
+  margin-top: 100px;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  max-width: var(--maxWidth);
+  width: 100%;
+  margin: 5rem auto;
+  gap: 3rem;
+}
+.housesImage {
+  max-width: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+  height: 500px;
+}
+.housesTitle {
+  color: var(--grey);
+  font-size: 2em;
+}
+.privalumaiCard {
+  border-radius: 40px;
+  background-color: var(--green);
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 900px;
+}
+.privalumas {
+  display: flex;
+  align-items: center;
+  height: 3em;
+}
+.privalumasIcon {
+  max-height: 2.2em;
+  margin-right: 15px;
+  margin-left: 30px;
+}
+.kaina {
+  font-size: 1.2em;
+}
+.privalumasText {
+  font-size: 1.1em;
+}
+.privalumaiTitle {
+  font-size: 1.5em;
+  font-weight: 500;
+}
+.nuomaButton {
+  z-index: 100;
+}
+.outdoorActivitiesContainer {
+  background-color: var(--lightBlue);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.outdoorActivities {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 30px;
+  padding-top: 30px;
+  padding-bottom: 100px;
+  row-gap: 2rem;
+}
+.outdoorActivitiesWrapper {
+  max-width: var(--maxWidth);
+  width: 100%;
+  place-content: center;
+}
+.services2 {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  margin: 64px 0;
+}
+.outdoorActivitesTextContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 150px;
+}
+.aboutUsContainer {
+  background-color: var(--lightBlue);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 96px 0;
+}
+.aboutUs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: var(--maxWidth);
+  gap: 48px;
+  align-items: center;
+}
+.aboutUsImage {
+  width: 100%;
+  border-radius: 20px;
+}
+.comfort {
+  max-width: var(--maxWidth);
+  display: grid;
+  margin: 64px auto;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+}
+.comfortTitle {
+  color: var(--grey);
+  font-size: 1.5rem;
+  margin-top: 8px;
+  font-weight: 600;
+}
+.comfortList {
+  display: flex;
+  flex-direction: column;
+}
+.comfortText {
+  color: var(--grey);
+  opacity: 90%;
+  line-height: 24px;
+}
+.comfortImage {
+  object-fit: cover;
+  width: 70%;
+  margin: 0 auto;
+  border-radius: 20px;
+}
+.comfortContainer {
+  margin: 24px;
+}
+.comfortNumber {
+  width: fit-content;
+  height: fit-content;
+  background-color: var(--green);
+  padding: 3px 12px;
+  border-radius: 7px;
+  font-size: 1.3rem;
+}
+.housesTitle {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.footerHouseContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-radius: 20px;
+  gap: 64px;
+  margin: 32px auto;
+}
+.footerGallery {
+  max-width: var(--maxWidth);
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+  column-count: 3;
+  margin: 32px auto;
+}
+.outdoorActivitesTextContainerTitle {
+  margin: 4rem 0 1rem;
+  font-size: 3rem;
+  font-weight: 600;
+}
+.outdoorActivitesTextContainerSecondaryTitle {
+  font-size: 1.8rem;
+  margin: 10px 0 2rem;
+  opacity: 85%;
+  font-weight: 550;
+}
+.outdoorActivitesTextContainerText {
+  opacity: 85%;
+  line-height: 24px;
+}
+.footerGalleryImage {
+  width: 100%;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  object-fit: cover;
+}
+.housesInfoContainer {
+  margin-bottom: 16px;
+}
+.housesInfoContainer,
+.housesPriceContainer {
+  padding: 16px;
+}
+.housesDescription,
+.housesPriceContainer > * {
+  color: var(--grey);
+}
+.housesButton {
+  margin-left: 0;
+  color: var(--sand);
+}
+.aboutUsTitle {
+  font-size: 3rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+.aboutUsSecondaryTitle {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0 0 2rem;
+  opacity: 95%;
+}
+.housesPrice {
+  color: var(--green);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+.housesPriceTitle {
+  margin: 0;
+}
+.housesPriceContainer p {
+  margin-top: 0.5rem;
+}
+.footerGalleryButton {
+  width: fit-content;
+  margin: 32px auto;
+  display: flex;
+  text-decoration: none;
+}
+@media (max-width: 850px) {
+  .shortDescriptionText {
+    text-align: left;
+  }
+  .outdoorActivities {
+    grid-template-columns: 1fr;
+    align-items: center;
+  }
+  .aboutUs {
+    column-gap: 50px;
+    row-gap: 2rem;
+  }
+  .aboutUs,
+  .outdoorActivitesTextContainer,
+  .services {
+    grid-template-columns: 1fr;
+  }
+  .title {
+    font-size: 4rem;
+  }
+  .footerHouseContainer {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .housesInfoContainer,
+  .housesPriceContainer {
+    margin: 0;
+    padding: 0;
+  }
+  .housesPriceContainer {
+    margin-top: 60px;
+  }
+  .footerGallery {
+    column-count: 2;
+  }
+}
+@media (max-width: 750px) {
+  .title {
+    font-size: 2.5em;
+  }
+  .aboutUsTitle {
+    font-size: 2rem;
+  }
+  .aboutUsSecondaryTitle {
+    font-size: 1.2rem;
+  }
+  .aboutUs,
+  .comfort {
+    grid-template-columns: 1fr;
+  }
+  .comfortImage {
+    width: 100%;
+  }
+  .aboutUsImage {
+    grid-row: 1;
+  }
+  .outdoorActivitesTextContainerTitle,
+  .servicesTitle {
+    font-size: 2rem;
+  }
+  .outdoorActivitesTextContainerSecondaryTitle {
+    font-size: 1.3rem;
+  }
+  .footerGallery {
+    column-count: 1;
+  }
+}
+@media (max-width: 400px) {
+  .title {
+    font-size: 3rem;
+  }
+}
+@media (max-width: 350px) {
+  .title {
+    font-size: 2.5rem;
+  }
+}

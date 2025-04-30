@@ -1,0 +1,310 @@
+/* Reservation Houses */
+.houseExample {
+  display: grid;
+  grid-template-columns: 5fr 3fr;
+  column-gap: 64px;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+}
+
+.houseInformation {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: fit-content;
+}
+/* House Example Description */
+.houseExampleDescriptionContainer {
+  color: var(--grey);
+  border-radius: 40px;
+  width: 95%;
+  margin: 0 auto;
+  height: fit-content;
+}
+
+.houseExampleDescriptionContainer > * {
+  color: var(--grey);
+}
+
+.price {
+  color: var(--grey);
+  font-size: 1.8rem;
+  font-weight: 550;
+}
+.priceContainer {
+  margin-bottom: 32px;
+}
+/* Calendar Wrap */
+.headerCalendarWrap {
+  width: fit-content;
+  background-color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 9999px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Calendar Styles */
+.CalendarMonth_caption *,
+.CalendarMonth_caption_1 *,
+.DayPicker_weekHeader_li *,
+.DayPicker_weekHeader_li_1 *,
+.CalendarDayhover,
+.CalendarDay_1hover,
+.CalendarDay__defaulthover,
+.CalendarDay__default_2:hover,
+.houseExampleTitle,
+.houseExampleSecondaryTitle,
+.kaina {
+  color: var(--grey);
+}
+
+.shareIcon {
+  background-color: var(--green);
+  border-radius: 50%;
+  width: 50px;
+}
+
+/* Reservation Instructions */
+
+.stepNumber {
+  background-color: var(--green);
+  padding: 8px 16px;
+  font-size: 1.25rem;
+  border-radius: 24px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+}
+.instructionStepContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  align-items: center;
+}
+.reservationInstructionsContainer {
+  max-width: 400px;
+  width: 100%;
+  min-height: 350px;
+  outline: 40px solid var(--sand);
+  padding-top: 20px;
+  background-color: var(--sand);
+}
+.closeButton {
+  background-color: transparent;
+  color: var(--grey);
+}
+.modalButtons {
+  margin-top: 64px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+.react-responsive-modal-modal {
+  background-color: var(--sand);
+}
+.moreInformationContactContainer,
+.socialMediaIcons {
+  display: flex;
+  flex-direction: row;
+  height: 1.5rem;
+  align-items: center;
+  gap: 12px;
+}
+.socialMediaIcons > * {
+  height: 36px;
+  margin-top: 10px;
+}
+.secondaryTitle {
+  margin: 0;
+  margin-bottom: 12px;
+}
+.moreInformationGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.calendarRezervuotiButton {
+  width: 100%;
+  margin: 16px 0 8px 0;
+}
+.shareContainer,
+.moreInformationContainer,
+.priceAndCalendarContainer {
+  background-color: var(--lighterSand);
+  border-radius: 20px;
+  padding: 32px;
+  max-width: 320px;
+}
+
+.past-day {
+  background-color: grey;
+  color: white;
+  opacity: 0.5;
+}
+.houseSpecifications {
+  display: flex;
+  gap: 2rem;
+  position: relative;
+}
+
+.houseSpecificationsDropdownButton img {
+  height: 100%;
+}
+
+.houseSpecificationsDropdownButton {
+  height: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: 500;
+  padding: 0.5rem 10px;
+  border-radius: 1.5rem;
+
+  background-color: transparent;
+  color: var(--grey);
+  position: relative;
+  transition: transform 0.3s, border-bottom-right-radius 0.3s,
+    border-bottom-left-radius 0.3s;
+}
+.houseSpecificationsDropdownButton:hover {
+  border-top-left-radius: 1.25rem;
+  border-top-right-radius: 1.25rem;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  background-color: var(--lighterSand);
+}
+.moreInformationArrow {
+  transform: rotate(90deg);
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+
+.houseSpecificationsDropdownButton:hover .moreInformationArrow {
+  transform: rotate(90deg) translateX(5px); /* Maintain rotation on hover */
+}
+.houseSpecificationsDropdownButton:hover .houseSpecificationsDropdown {
+  opacity: 100%;
+  visibility: visible;
+  background-color: var(--lighterSand);
+  z-index: 10;
+}
+.houseSpecificationsContainer {
+  display: flex;
+  gap: 1rem;
+  margin: 16px 0px;
+}
+.houseSpecificationsDropdown {
+  position: absolute;
+  color: var(--grey);
+  padding: 10px;
+  width: 300px;
+  font-size: 1rem;
+  opacity: 0%;
+  top: 100%;
+  left: 0;
+  border-bottom-left-radius: 1.25rem;
+  border-bottom-right-radius: 1.25rem;
+  border-top-right-radius: 1.25rem;
+  visibility: hidden;
+  line-height: 1.5rem;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.houseDescription > * {
+  color: var(--grey);
+  line-height: 1.6rem;
+}
+
+.houseDescription {
+  margin: 2rem 0 2rem;
+}
+
+.reservationDescription {
+  opacity: 90%;
+  margin-top: auto;
+  font-size: 0.9rem;
+}
+
+.houseExampleTitle {
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin: 8px 0;
+}
+.houseExampleSecondaryTitle {
+  font-size: 1.5rem;
+  font-weight: 450;
+  opacity: 95%;
+  margin: 0;
+}
+.reservationStepTitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.react-responsive-modal-overlay {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  cursor: default;
+}
+.react-responsive-modal-modal {
+  box-shadow: none !important;
+}
+.comment {
+  opacity: 80%;
+  font-size: 0.8rem;
+  width: 90%;
+}
+.CalendarDay {
+  cursor: default !important;
+}
+.CalendarDay:hover {
+  background-color: initial !important;
+  color: initial !important;
+}
+.CalendarDay__blocked_out_of_range {
+  cursor: not-allowed !important;
+  background-color: rgba(211, 211, 211, 0.247) !important;
+  color: white !important;
+}
+.CalendarDay__blocked_out_of_range:hover {
+  background-color: rgba(204, 200, 200, 0.247) !important;
+  color: white !important;
+}
+
+@media (max-width: 900px) {
+  .houseExample {
+    grid-template-columns: 1fr;
+    margin-bottom: 5rem;
+    place-items: center;
+  }
+  .houseExampleTitle {
+    font-size: 1.8rem;
+  }
+  .houseExampleSecondaryTitle {
+    font-size: 1.3rem;
+  }
+  .houseSpecifications {
+    justify-content: center;
+  }
+  .houseExampleDescriptionContainer {
+    grid-row: 2;
+  }
+  .calendar {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 1200px) {
+  .reservationHeaderTitle {
+    margin-top: 8rem;
+  }
+}

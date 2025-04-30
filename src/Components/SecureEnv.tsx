@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import AdminLogin from "../Pages/AdminLogin"; // adjust path if needed
 
 export default function SecureEnv() {
   const navigate = useNavigate();
@@ -8,6 +9,7 @@ export default function SecureEnv() {
   useEffect(() => {
     const checkAuth = async () => {
       try {
+        
         const response = await fetch("http://localhost:3000/verify-jwt", {
           method: "GET",
           credentials: "include",
@@ -17,8 +19,8 @@ export default function SecureEnv() {
 
         if (!response.ok || !result.isAuthenticated) {
           console.error("Failed to authenticate token");
+
           setIsAuth(false);
-          navigate("/admin");
           return;
         }
 
@@ -26,13 +28,13 @@ export default function SecureEnv() {
       } catch (err) {
         console.error(err);
         setIsAuth(false);
-        navigate("/admin");
       }
     };
 
     checkAuth();
-  }, [navigate]); // Add navigate to dependencies
+  }, [navigate]);
 
   if (isAuth === null) return <p>Loading...</p>;
-  return isAuth ? <Outlet /> : null;
+
+  return isAuth ? <Outlet /> : <AdminLogin />;
 }

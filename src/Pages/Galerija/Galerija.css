@@ -1,0 +1,75 @@
+Minified CSS Source map Restructure Beautify .galleryContainer,
+.mainGalleryContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mainGalleryContainer {
+  flex-direction: column;
+}
+.galleryNav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  border-radius: 999px;
+  background-color: transparent;
+  max-width: var(--maxWidth);
+}
+.photoGridContainer {
+  max-width: var(--maxWidth);
+  margin: 0 auto;
+}
+.photoGrid {
+  margin: 0 auto;
+  width: 95%;
+  column-count: 3;
+  column-gap: 15px;
+}
+.galleryPhoto {
+  width: 100%;
+  margin-bottom: 15px;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  break-inside: avoid;
+  object-fit: cover;
+}
+.galleryPhoto:hover {
+  transform: scale(1.05);
+}
+.galleryButton {
+  background-color: transparent;
+  transition: background-color 0.3s, color 0.3s;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .photoGrid {
+    column-count: 2;
+  }
+}
+@media (max-width: 750px) {
+  .galleryNav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-radius: 22px;
+  }
+}
+@media (max-width: 600px) {
+  .photoGrid {
+    column-count: 1;
+  }
+}
+.galerijaScrollButton {
+  display: block;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  padding: 15px;
+  margin: 32px auto;
+}
+.galerijaScrollButtonImage {
+  transform: rotate(180deg);
+}

@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { serverURL } from "../config.ts";
 
 export default function useFetchData(path: string) {
   const [data, setData] = useState<any[]>([]);
@@ -12,7 +13,7 @@ export default function useFetchData(path: string) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/${path}`);
+        const response = await fetch(`${serverURL}/${path}`);
         if (!response.ok) throw new Error("Failed to fetch data");
 
         const result = await response.json();

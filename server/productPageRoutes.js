@@ -46,7 +46,6 @@ async function updateProductData(product) {
 
 router.post("/shop/update-product/", async (req, res) => {
   const product = req.body.product;
-  console.log(product);
   try {
     const data = await updateProductData(product);
 
@@ -117,9 +116,8 @@ const updateOrder = async (id, document) => {
 
 router.post("/api/create-order-document", async (req, res) => {
   try {
-    const orderID = req.cookies.order_id;
-    console.log(orderID);
-    if (orderID) {
+    if (req.session.order_id) {
+      const orderID = req.session.order_id;
       const data = await updateOrder(orderID, req.body);
       if (!data || data === -1) {
         return res.status(404).json({ message: "No products found" });
@@ -132,12 +130,8 @@ router.post("/api/create-order-document", async (req, res) => {
         return res.status(404).json({ message: "No products found" });
       }
 
-      res.cookie("order_id", newID, {
-        httpOnly: true,
-        secure: false,
-        sameSite: "Lax", // Change from "None" to "Lax" for localhost
-        maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
-      });
+      req.session.order_id = newID;
+      req.session.save();
       res.json(data);
     }
   } catch (err) {
@@ -153,7 +147,6 @@ const updateOrderUser = async (id, document) => {
       { id: id },
       { $set: { user: document, currentStep: 0 } }
     );
-    console.log(data);
     return data;
   } catch (err) {
     console.log(err);
@@ -162,7 +155,8 @@ const updateOrderUser = async (id, document) => {
 
 router.post("/api/insert-order-user-data", async (req, res) => {
   try {
-    const orderID = req.cookies.order_id;
+    const orderID = req.session.order_id;
+    console.log(req.session.order_id);
     const data = await updateOrderUser(orderID, req.body);
     if (!data || data === -1) {
       return res.status(404).json({ message: "No products found" });
@@ -174,17 +168,6 @@ router.post("/api/insert-order-user-data", async (req, res) => {
     res.status(500);
   }
 });
-
-async function confirmOrder(id) {
-  try {
-    const collection = client.db(dbname).collection("productData");
-    const data = await collection.findOne({ id: `${id}` });
-    return data;
-  } catch (err) {
-    console.error("Error fetching data from DB:", err);
-    throw new Error("Database query failed");
-  }
-}
 
 // Route to get product by ID
 router.get("/api/order-confirmation", async (req, res) => {

@@ -1,25 +1,37 @@
 import { lazy, Suspense } from "react";
 import "./App.css";
-import NavBar from "./Components/NavBar";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
-import { Navigate, useLocation, Outlet } from "react-router-dom";
-import SecureEnv from "./Components/SecureEnv";
-import Dashboard from "./Pages/Admin/Dashboard";
+import { useLocation, Outlet } from "react-router-dom";
+// import Dashboard from "./Pages/Admin/Dashboard";
 import AdminNavBar from "./Pages/Admin/Components/AdminNavBar";
-import CartSizeContextProvider from "./contexts/cartSizeContext";
+import NavBar from "./Components/NavBar/NavBar.tsx";
+import { MantineProvider } from "@mantine/core";
+import { DatesProvider } from "@mantine/dates";
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css"; // for MonthPickerInput and other date components
+import "dayjs/locale/lt";
+// const Shop = lazy(() => import("./Pages/Shop"));
+// const Cart = lazy(() => import("./Pages/Cart"));
+// const Checkout = lazy(() => import("./Pages/Checkout"));
+// const PaymentSuccessful = lazy(() => import("./Pages/PaymentSuccessful"));
+// const PaymentFailed = lazy(() => import("./Pages/PaymentFailed"));
+// const Orders = lazy(() => import("./Pages/Admin/Orders"));
+// const AdminProducts = lazy(() => import("./Pages/Admin/AdminProducts"));
 
-const Landing = lazy(() => import("./Pages/Landing"));
-const Shop = lazy(() => import("./Pages/Shop"));
-const Product = lazy(() => import("./Pages/Product"));
-const Contacts = lazy(() => import("./Pages/Contacts"));
-const Recipes = lazy(() => import("./Pages/Recipes"));
+const Galerija = lazy(() => import("./Pages/Galerija/Galerija"));
+const Reservation = lazy(() => import("./Pages/Reservation/Reservation"));
+const Rules = lazy(() => import("./Pages/Rules/Rules"));
+const Home = lazy(() => import("./Pages/Home/Home"));
+const Kontaktai = lazy(() => import("./Pages/Kontaktai/Kontaktai"));
+const Apylinkes = lazy(() => import("./Pages/Apylinkes/Apylinkes"));
+const Error = lazy(() => import("./Pages/Error/Error"));
+const DUK = lazy(() => import("./Pages/DUK/DUK"));
+const Sventes = lazy(() => import("./Pages/Sventes/Sventes"));
+const Poilsis = lazy(() => import("./Pages/Poilsis/Poilsis"));
+const Kalendorius = lazy(() => import("./Pages/Admin/Kalendorius.tsx"));
+const SecureEnv = lazy(() => import("./Components/SecureEnv.tsx"));
+const AdminLogin = lazy(() => import("./Pages/AdminLogin.tsx"));
 
-const Cart = lazy(() => import("./Pages/Cart"));
-const Checkout = lazy(() => import("./Pages/Checkout"));
-
-const Orders = lazy(() => import("./Pages/Admin/Orders"));
-const AdminLogin = lazy(() => import("./Pages/AdminLogin"));
-const AdminProducts = lazy(() => import("./Pages/Admin/AdminProducts"));
 // Create a wrapper component to conditionally render NavBar
 function AppContent() {
   const location = useLocation();
@@ -36,39 +48,40 @@ function AppContent() {
   const AdminLayout = () => {
     return (
       <div>
-        <AdminNavBar />
         <SecureEnv />
       </div>
     );
   };
   return (
     <>
-      <CartSizeContextProvider>
-        <Suspense
-          fallback={
-            <div className="w-20 h-20 animate-spin border-t-4 border-amber-400 rounded-full absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-          }
-        >
-          <Routes>
-            <Route element={<UserLayout />}>
-              <Route path="/" element={<Landing />} />
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/recipes" element={<Recipes />} />
-              <Route path="/shop" element={<Shop />} />
-              <Route path="/shop/product" element={<Product />} />
-
-              <Route path="/cart" element={<Cart />} />
-              <Route path="/checkout" element={<Checkout />} />
-              <Route path="/admin" element={<AdminLogin />} />
-            </Route>
-            <Route path="/admin/*" element={<AdminLayout />}>
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="products" element={<AdminProducts />} />
-              <Route path="orders" element={<Orders />} />
-            </Route>
-          </Routes>
-        </Suspense>
-      </CartSizeContextProvider>
+      <Suspense
+        fallback={
+          <div className="w-20 h-20 animate-spin border-t-4 border-amber-400 rounded-full absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+        }
+      >
+        <MantineProvider>
+          <DatesProvider settings={{ locale: "lt" }}>
+            <Routes>
+              <Route path="/" element={<UserLayout />}>
+                <Route index element={<Home />} />
+                <Route path="kontaktai" element={<Kontaktai />} />
+                <Route path="rezervacija" element={<Reservation />} />
+                <Route path="galerija" element={<Galerija />} />
+                <Route path="apylinkes" element={<Apylinkes />} />
+                <Route path="taisykles" element={<Rules />} />
+                <Route path="duk" element={<DUK />} />
+                <Route path="sventes" element={<Sventes />} />
+                <Route path="poilsis" element={<Poilsis />} />
+                <Route path="admin" element={<AdminLogin />} />
+                <Route path="*" element={<Error />} />
+              </Route>
+              <Route path="/admin/*" element={<AdminLayout />}>
+                <Route path="kalendorius" element={<Kalendorius />} />
+              </Route>
+            </Routes>
+          </DatesProvider>
+        </MantineProvider>
+      </Suspense>
     </>
   );
 }

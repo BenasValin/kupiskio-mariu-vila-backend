@@ -112,7 +112,7 @@ const Shop = () => {
           <ProductCard
             key={element.id}
             id={element.id}
-            img={element.img}
+            img={element.images[0]}
             title={element.title}
             description={element.description}
             price={element.price}

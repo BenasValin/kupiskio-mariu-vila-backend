@@ -1,8 +1,6 @@
-import useFetchData from "@/Hooks/useFetchData";
-import { ReactEventHandler, useState, useCallback, memo, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useState, useCallback, memo, useEffect, useContext } from "react";
 import { CartSizeContext } from "@/contexts/cartSizeContext";
-
+import { serverURL } from "../config.ts";
 // Define interfaces for props
 interface StandardFormProps {
   formData: FormData;
@@ -53,6 +51,7 @@ const StandardForm = memo(
               Vardas
             </label>
             <input
+              maxLength={35}
               type="text"
               id="name"
               value={formData.name}
@@ -69,6 +68,7 @@ const StandardForm = memo(
             <input
               type="text"
               id="surname"
+              maxLength={35}
               value={formData.surname}
               onChange={onChange}
               className={`w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
@@ -207,11 +207,13 @@ const Shipping = memo(
             <label htmlFor="kurjeris">Kurjeris</label>
           </div>
         </div>
-        
+
         {shippingOption === "pastomatas" && (
           <div className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="city" className="block text-sm font-medium">Miestas</label>
+              <label htmlFor="city" className="block text-sm font-medium">
+                Miestas
+              </label>
               <input
                 type="text"
                 id="city"
@@ -223,7 +225,9 @@ const Shipping = memo(
               />
             </div>
             <div className="space-y-2">
-              <label htmlFor="pastomatas" className="block text-sm font-medium">Paštomatas</label>
+              <label htmlFor="pastomatas" className="block text-sm font-medium">
+                Paštomatas
+              </label>
               <input
                 type="text"
                 id="pastomatas"
@@ -236,11 +240,13 @@ const Shipping = memo(
             </div>
           </div>
         )}
-        
+
         {shippingOption === "kurjeris" && (
           <div className="space-y-4">
             <div className="space-y-2">
-              <label htmlFor="city" className="block text-sm font-medium">Miestas</label>
+              <label htmlFor="city" className="block text-sm font-medium">
+                Miestas
+              </label>
               <input
                 type="text"
                 id="city"
@@ -253,7 +259,9 @@ const Shipping = memo(
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <label htmlFor="street" className="block text-sm font-medium">Gatvė</label>
+                <label htmlFor="street" className="block text-sm font-medium">
+                  Gatvė
+                </label>
                 <input
                   type="text"
                   id="street"
@@ -265,20 +273,29 @@ const Shipping = memo(
                 />
               </div>
               <div className="space-y-2">
-                <label htmlFor="houseNumber" className="block text-sm font-medium">Namo Nr. - (Buto Nr.)</label>
+                <label
+                  htmlFor="houseNumber"
+                  className="block text-sm font-medium"
+                >
+                  Namo Nr. - (Buto Nr.)
+                </label>
                 <input
                   type="text"
                   id="houseNumber"
                   value={formData.houseNumber}
                   onChange={onChange}
                   className={`w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                    fieldErrors.houseNumber ? "border-red-500 border-2" : "border"
+                    fieldErrors.houseNumber
+                      ? "border-red-500 border-2"
+                      : "border"
                   }`}
                 />
               </div>
             </div>
             <div className="space-y-2">
-              <label htmlFor="postalCode" className="block text-sm font-medium">Postal code</label>
+              <label htmlFor="postalCode" className="block text-sm font-medium">
+                Postal code
+              </label>
               <input
                 type="text"
                 id="postalCode"
@@ -297,104 +314,114 @@ const Shipping = memo(
 );
 
 // Cart summary component
-const CartSummary = memo(({ cartData, loading, error }: { cartData: any[], loading: boolean, error: string | null }) => {
-  // Get the effective price (sale price if on sale, regular price otherwise)
-  const getEffectivePrice = (product: any) => {
-    return product.onSale && product.salePrice
-      ? product.salePrice
-      : product.price;
-  };
+const CartSummary = memo(
+  ({
+    cartData,
+    loading,
+    error,
+  }: {
+    cartData: any[];
+    loading: boolean;
+    error: string | null;
+  }) => {
+    // Get the effective price (sale price if on sale, regular price otherwise)
+    const getEffectivePrice = (product: any) => {
+      return product.onSale && product.salePrice
+        ? product.salePrice
+        : product.price;
+    };
 
-  // Calculate totals
-  const subtotal = cartData.reduce((sum, product) => {
-    const quantity = product.quantity || 1;
-    const effectivePrice = getEffectivePrice(product);
-    return sum + effectivePrice * quantity;
-  }, 0);
+    // Calculate totals
+    const subtotal = cartData.reduce((sum, product) => {
+      const quantity = product.quantity || 1;
+      const effectivePrice = getEffectivePrice(product);
+      return sum + effectivePrice * quantity;
+    }, 0);
 
-  const savings = cartData.reduce((sum, product) => {
-    const quantity = product.quantity || 1;
-    if (product.onSale && product.salePrice) {
-      return sum + (product.price - product.salePrice) * quantity;
-    }
-    return sum;
-  }, 0);
+    const savings = cartData.reduce((sum, product) => {
+      const quantity = product.quantity || 1;
+      if (product.onSale && product.salePrice) {
+        return sum + (product.price - product.salePrice) * quantity;
+      }
+      return sum;
+    }, 0);
 
-  if (loading) return <p>Loading cart items...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
-  if (cartData.length === 0) return <p>Your cart is empty</p>;
+    if (loading) return <p>Loading cart items...</p>;
+    if (error) return <p className="text-red-500">{error}</p>;
+    if (cartData.length === 0) return <p>Your cart is empty</p>;
 
-  return (
-    <div className="bg-white rounded-lg shadow-md p-6 h-full">
-      <h2 className="text-xl font-bold mb-4">Order Summary</h2>
-      
-      <div className="max-h-64 overflow-y-auto mb-4">
-        {cartData.map((product) => (
-          <div key={product.id} className="flex items-center py-3 border-b">
-            <div className="w-12 h-12 mr-4">
-              <img
-                src={product.img || product.image || "/placeholder.jpg"}
-                alt={product.title}
-                className="w-full h-full object-cover rounded"
-              />
-            </div>
-            <div className="flex-1">
-              <p className="font-medium truncate">{product.title}</p>
-              <div className="flex justify-between items-center mt-1">
-                <div>
-                  {product.onSale && product.salePrice ? (
-                    <span className="text-green-600 font-medium">
-                      {product.salePrice.toFixed(2)} €
-                    </span>
-                  ) : (
-                    <span>{product.price.toFixed(2)} €</span>
-                  )}
+    return (
+      <div className="bg-white rounded-lg shadow-md p-6 h-full">
+        <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+
+        <div className="max-h-64 overflow-y-auto mb-4">
+          {cartData.map((product) => (
+            <div key={product.id} className="flex items-center py-3 border-b">
+              <div className="w-12 h-12 mr-4">
+                <img
+                  src={product.images[0] || "/placeholder.jpg"}
+                  alt={product.title}
+                  className="w-full h-full object-cover rounded"
+                />
+              </div>
+              <div className="flex-1">
+                <p className="font-medium truncate">{product.title}</p>
+                <div className="flex justify-between items-center mt-1">
+                  <div>
+                    {product.onSale && product.salePrice ? (
+                      <span className="text-green-600 font-medium">
+                        {product.salePrice.toFixed(2)} €
+                      </span>
+                    ) : (
+                      <span>{product.price.toFixed(2)} €</span>
+                    )}
+                  </div>
+                  <span className="text-gray-600">
+                    Qty: {product.quantity || 1}
+                  </span>
                 </div>
-                <span className="text-gray-600">Qty: {product.quantity || 1}</span>
               </div>
             </div>
+          ))}
+        </div>
+
+        <div className="space-y-2 pt-4 border-t">
+          <div className="flex justify-between py-1">
+            <span className="text-gray-600">Subtotal:</span>
+            <span>{subtotal.toFixed(2)} €</span>
           </div>
-        ))}
-      </div>
-      
-      <div className="space-y-2 pt-4 border-t">
-        <div className="flex justify-between py-1">
-          <span className="text-gray-600">Subtotal:</span>
-          <span>{subtotal.toFixed(2)} €</span>
-        </div>
-        {savings > 0 && (
-          <div className="flex justify-between py-1 text-green-600">
-            <span>Savings:</span>
-            <span>{savings.toFixed(2)} €</span>
+          {savings > 0 && (
+            <div className="flex justify-between py-1 text-green-600">
+              <span>Savings:</span>
+              <span>{savings.toFixed(2)} €</span>
+            </div>
+          )}
+          <div className="flex justify-between py-1 text-gray-600">
+            <span>Shipping:</span>
+            <span>To be calculated</span>
           </div>
-        )}
-        <div className="flex justify-between py-1 text-gray-600">
-          <span>Shipping:</span>
-          <span>To be calculated</span>
-        </div>
-        <div className="flex justify-between py-2 font-bold text-lg border-t border-gray-200 mt-2 pt-2">
-          <span>Total:</span>
-          <span>{subtotal.toFixed(2)} €</span>
+          <div className="flex justify-between py-2 font-bold text-lg border-t border-gray-200 mt-2 pt-2">
+            <span>Total:</span>
+            <span>{subtotal.toFixed(2)} €</span>
+          </div>
         </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 export default function Checkout() {
   const [companyFormActive, setCompanyFormActive] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [shippingOption, setShippingOption] = useState<string>("");
-  const navigate = useNavigate();
-  const { cartSize } = useContext(CartSizeContext);
-  
+
   // Cart data states (from Cart component)
   const [cartIDs, setCartIDs] = useState<string[]>([]);
   const [localStorageCart, setLocalStorageCart] = useState<any[]>([]);
   const [cartData, setCartData] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   const [formData, setFormData] = useState<FormData>({
     // Personal info
     name: "",
@@ -456,7 +483,7 @@ export default function Checkout() {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`http://localhost:3000/api/cart`, {
+      const response = await fetch(`${serverURL}/api/cart`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -501,6 +528,26 @@ export default function Checkout() {
     },
     [fieldErrors]
   );
+
+  const createCheckoutSession = () => {
+    fetch(`${serverURL}/api/create-checkout-session`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    })
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((e) => Promise.reject(e));
+      })
+      .then(({ url }) => {
+        window.location = url;
+      })
+      .catch((e) => {
+        console.error(e.error);
+      });
+  };
 
   // Memoize the shipping option setter
   const handleShippingOptionChange = useCallback((option: string) => {
@@ -557,19 +604,16 @@ export default function Checkout() {
 
   const proceedToReview = async () => {
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/insert-order-user-data`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${serverURL}/api/insert-order-user-data`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(formData),
+      });
       if (!response.ok) throw new Error("Failed to fetch data");
-      navigate("/confirmation");
+      createCheckoutSession();
     } catch (err) {
       console.error("Error submitting user data:", err);
     }
@@ -595,7 +639,7 @@ export default function Checkout() {
         <div className="w-full md:w-3/5">
           <div className="bg-white shadow-md rounded-lg p-6">
             <h2 className="text-xl font-bold mb-6">Užsakymo informacija</h2>
-            
+
             <div className="flex gap-8 mb-6">
               <div className="flex items-center gap-2">
                 <input
@@ -641,7 +685,7 @@ export default function Checkout() {
                   errorMessage={errorMessage}
                 />
               )}
-              
+
               <Shipping
                 formData={formData}
                 fieldErrors={fieldErrors}
@@ -649,7 +693,7 @@ export default function Checkout() {
                 shippingOption={shippingOption}
                 setShippingOption={handleShippingOptionChange}
               />
-              
+
               <div className="mt-8">
                 <button
                   type="submit"
@@ -664,11 +708,7 @@ export default function Checkout() {
 
         {/* Right column - Cart summary */}
         <div className="w-full md:w-2/5 mt-8 md:mt-0">
-          <CartSummary 
-            cartData={cartData} 
-            loading={loading} 
-            error={error}
-          />
+          <CartSummary cartData={cartData} loading={loading} error={error} />
         </div>
       </div>
     </div>
