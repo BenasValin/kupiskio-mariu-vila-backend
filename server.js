@@ -26,7 +26,6 @@ const store = new MongoStore({
   collection: "sessions",
   databaseName: dbname,
   connectionOptions: {
-    ssl: true,
     tls: true,
     connectTimeoutMS: 30000,
     socketTimeoutMS: 30000,
