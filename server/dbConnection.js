@@ -11,7 +11,7 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri);
-const dbname = "KupiskioVila";
+const dbname = process.env.MONGODB_DB_NAME;
 
 async function connectDB() {
   try {

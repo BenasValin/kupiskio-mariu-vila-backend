@@ -27,7 +27,6 @@ router.use(async (req, res, next) => {
   }
 });
 
-
 // Endpoint to fetch booked ranges
 router.get("/booked-ranges", async (req, res) => {
   try {
@@ -186,7 +185,6 @@ router.post("/update-booking", async (req, res) => {
       { returnDocument: "after" }
     );
 
-
     res.send(updatedBooking.value);
   } catch (err) {
     console.error("Error updating booking:", err);
@@ -225,8 +223,8 @@ router.post("/delete-range", async (req, res) => {
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: "beniauskiukas@gmail.com",
-    pass: "", // Be careful with sensitive information
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
@@ -235,9 +233,9 @@ router.post("/send-email", (req, res) => {
   console.log(name);
 
   const mailOptions = {
-    from: "beniauskiukas@gmail.com",
+    from: EMAIL,
     subject: "Kupiskio Mariu Vilos Uzklausa",
-    to: "valintelisb@gmail.com",
+    to: process.env.EMAIL_RECIPIENT,
     text: `${name} ${surname}
       ,,${message}"
       Kontaktai:
