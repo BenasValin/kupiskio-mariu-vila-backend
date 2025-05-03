@@ -16,7 +16,7 @@ import ExpressMongoSanitize from "express-mongo-sanitize";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
-const allowedOrigins = 'https://kupiskiomariuvila.lt', 'https://www.kupiskiomariuvila.lt'];
+const allowedOrigins = 'https://kupiskiomariuvila.lt'];
 const SESSION_SECRET_KEY = process.env.SESSION_SECRET_KEY;
 
 // Configure MongoDB session store with proper TLS options
