@@ -25,15 +25,7 @@ const store = new MongoStore({
   uri: process.env.MONGODB_URI,
   collection: "sessions",
   databaseName: dbname,
-  connectionOptions: {
-    tls: true,
-    connectTimeoutMS: 30000,
-    socketTimeoutMS: 30000,
-    retryWrites: true,
-    retryReads: true
-  }
 });
-
 // Handle store errors
 store.on('error', function(error) {
   console.error('MongoDB Session Store Error:', error);
