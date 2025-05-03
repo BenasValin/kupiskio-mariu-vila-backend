@@ -16,7 +16,6 @@ const client = new MongoClient(uri, {
   ssl: true,
   tls: true,
   tlsAllowInvalidCertificates: true,
-  tlsAllowInvalidHostnames: true,
   // Additional helpful options
   connectTimeoutMS: 30000,
   socketTimeoutMS: 30000,
