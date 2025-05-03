@@ -4,7 +4,6 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoDBStore from "connect-mongodb-session";
-
 import { connectDB, client, dbname } from "./server/dbConnection.js";
 import productPageRoutes from "./server/productPageRoutes.js";
 import userAuth from "./server/userAuth.js";
@@ -15,18 +14,32 @@ import calendar from "./server/calendar.js";
 import ExpressMongoSanitize from "express-mongo-sanitize";
 
 dotenv.config();
-
 const app = express();
-const PORT = 3000;
-
+const PORT = process.env.PORT || 3000;
 const allowedOrigins = ["http://localhost:5173"];
 const SESSION_SECRET_KEY = process.env.SESSION_SECRET_KEY;
 
+// Configure MongoDB session store with proper TLS options
 const MongoStore = MongoDBStore(session);
 const store = new MongoStore({
   uri: process.env.MONGODB_URI,
   collection: "sessions",
   databaseName: dbname,
+  connectionOptions: {
+    ssl: true,
+    tls: true,
+    minTlsVersion: 'TLSv1.2',
+    maxTlsVersion: 'TLSv1.3',
+    connectTimeoutMS: 30000,
+    socketTimeoutMS: 30000,
+    retryWrites: true,
+    retryReads: true
+  }
+});
+
+// Handle store errors
+store.on('error', function(error) {
+  console.error('MongoDB Session Store Error:', error);
 });
 
 app.use(cookieParser());
@@ -42,23 +55,39 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 2,
-      secure: false,
+      secure: false, // Set to true if using HTTPS
       sameSite: "lax",
     },
     name: "checkout-session",
   })
 );
 
-connectDB();
+// Connect to MongoDB before setting up routes
+async function startServer() {
+  try {
+    await connectDB();
+    
+    // Routes
+    app.use("/", productPageRoutes);
+    app.use("/", userAuth);
+    app.use("/api/", imageStorage);
+    app.use("/api/", stripe);
+    app.use("/api/admin/", adminControl);
+    app.use("/api/", calendar);
+    
+    // Error handler middleware
+    app.use((err, req, res, next) => {
+      console.error('Server error:', err);
+      res.status(500).send('Something went wrong');
+    });
+    
+    app.listen(PORT, () => {
+      console.log(`Express server running at http://localhost:${PORT}/`);
+    });
+  } catch (err) {
+    console.error('Failed to start server:', err);
+    process.exit(1);
+  }
+}
 
-// Routes
-app.use("/", productPageRoutes);
-app.use("/", userAuth);
-app.use("/api/", imageStorage);
-app.use("/api/", stripe); // ✅ this now gets session properly
-app.use("/api/admin/", adminControl);
-app.use("/api/", calendar);
-
-app.listen(PORT, () => {
-  console.log(`Express server running at http://localhost:${PORT}/`);
-});
+startServer();
