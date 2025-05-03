@@ -13,15 +13,13 @@ const uri = process.env.MONGODB_URI;
 
 // Configure MongoDB client with proper TLS options
 const client = new MongoClient(uri, {
-  ssl: true,
   tls: true,
   tlsAllowInvalidCertificates: true,
-  // Additional helpful options
   connectTimeoutMS: 30000,
   socketTimeoutMS: 30000,
   retryWrites: true,
   retryReads: true,
-  serverSelectionTimeoutMS: 5000
+  serverSelectionTimeoutMS: 5000,
 });
 
 const dbname = process.env.MONGODB_DB_NAME;
