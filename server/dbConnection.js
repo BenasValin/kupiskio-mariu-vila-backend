@@ -17,9 +17,6 @@ const client = new MongoClient(uri, {
   tls: true,
   tlsAllowInvalidCertificates: false,
   tlsAllowInvalidHostnames: false,
-  // Specify min/max TLS versions for Node.js v22
-  minTlsVersion: 'TLSv1.2',
-  maxTlsVersion: 'TLSv1.3',
   // Additional helpful options
   connectTimeoutMS: 30000,
   socketTimeoutMS: 30000,
