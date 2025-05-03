@@ -23,8 +23,7 @@ const SESSION_SECRET_KEY = process.env.SESSION_SECRET_KEY;
 const MongoStore = MongoDBStore(session);
 const store = new MongoStore({
   uri: process.env.MONGODB_URI,
-  collection: "sessions",
-  databaseName: dbname,
+  collection: "sessions"
 });
 // Handle store errors
 store.on('error', function(error) {
