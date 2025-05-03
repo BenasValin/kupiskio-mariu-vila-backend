@@ -236,7 +236,7 @@ router.post("/send-email", (req, res) => {
   console.log(name);
 
   const mailOptions = {
-    from: `Vilos Klientas: ${name} ${surname}',
+    from: {`Vilos Klientas: ${name} ${surname}'},
     subject: "Kupiskio Mariu Vilos Uzklausa",
     to: process.env.EMAIL_RECIPIENT,
     text: `${name} ${surname}
