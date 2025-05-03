@@ -12,16 +12,10 @@ dotenv.config({ path: path.resolve(__dirname, "../.env") });
 const uri = process.env.MONGODB_URI;
 
 // Configure MongoDB client with proper TLS options
-const client = new MongoClient(uri, {
-  tls: true,
-  tlsAllowInvalidCertificates: true,
-  connectTimeoutMS: 30000,
-  socketTimeoutMS: 30000,
-  retryWrites: true,
-  retryReads: true,
-  serverSelectionTimeoutMS: 5000,
+const client = new MongoClient(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
-
 const dbname = process.env.MONGODB_DB_NAME;
 
 async function connectDB() {
