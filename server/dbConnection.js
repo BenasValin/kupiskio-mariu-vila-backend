@@ -15,8 +15,8 @@ const uri = process.env.MONGODB_URI;
 const client = new MongoClient(uri, {
   ssl: true,
   tls: true,
-  tlsAllowInvalidCertificates: false,
-  tlsAllowInvalidHostnames: false,
+  tlsAllowInvalidCertificates: true,
+  tlsAllowInvalidHostnames: true,
   // Additional helpful options
   connectTimeoutMS: 30000,
   socketTimeoutMS: 30000,
