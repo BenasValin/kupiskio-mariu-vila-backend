@@ -43,8 +43,8 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 24 * 2,
-      secure: false, // Set to true if using HTTPS
-      sameSite: "lax",
+      secure: process.env.NODE_ENV === 'production', // Secure in production
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     },
     name: "checkout-session",
   })
