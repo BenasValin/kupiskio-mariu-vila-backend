@@ -244,17 +244,20 @@ router.get("/verify-jwt", async (req, res) => {
 
 // ------- COOKIE HANDLING -------
 function sendTokenCookie(res, accessToken, refreshToken) {
+  // Determine environment
+  const isProduction = process.env.NODE_ENV === 'production';
+  
   res.cookie("refreshToken", refreshToken, {
     httpOnly: true,
-    secure: false,
-    sameSite: "Lax", // Change from "None" to "Lax" for localhost
+    secure: isProduction, // true in production (Render uses HTTPS)
+    sameSite: isProduction ? 'none' : 'lax', // 'none' for cross-site in production
     maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days
   });
 
   res.cookie("accessToken", accessToken, {
     httpOnly: true,
-    secure: false, // 🔴 Make sure this is false for localhost
-    sameSite: "Lax",
+    secure: isProduction, // true in production
+    sameSite: isProduction ? 'none' : 'lax',
     maxAge: 15 * 60 * 1000, // 15 minutes
   });
 }
