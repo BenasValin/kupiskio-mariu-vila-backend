@@ -10,7 +10,24 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 const uri = process.env.MONGODB_URI;
-const client = new MongoClient(uri);
+
+// Configure MongoDB client with proper TLS options
+const client = new MongoClient(uri, {
+  ssl: true,
+  tls: true,
+  tlsAllowInvalidCertificates: false,
+  tlsAllowInvalidHostnames: false,
+  // Specify min/max TLS versions for Node.js v22
+  minTlsVersion: 'TLSv1.2',
+  maxTlsVersion: 'TLSv1.3',
+  // Additional helpful options
+  connectTimeoutMS: 30000,
+  socketTimeoutMS: 30000,
+  retryWrites: true,
+  retryReads: true,
+  serverSelectionTimeoutMS: 5000
+});
+
 const dbname = process.env.MONGODB_DB_NAME;
 
 async function connectDB() {
@@ -20,7 +37,8 @@ async function connectDB() {
     return client;
   } catch (err) {
     console.error("Error connecting to MongoDB:", err);
-    process.exit(1); // Exit if DB connection fails
+    // Don't exit process on connection failure - this allows retry logic to work
+    throw err;
   }
 }
 
