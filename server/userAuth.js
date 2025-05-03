@@ -53,7 +53,6 @@ const registerUser = () => {
 // ------- LOGIN -------
 const loginUser = async (password, username) => {
   try {
-    console.log("labas");
     const collection = client.db(dbname).collection("users");
     const user = await collection.findOne({ username });
     if (!user) return false;
@@ -203,7 +202,6 @@ const getRefreshToken = async (token) => {
 router.get("/verify-jwt", async (req, res) => {
   try {
     const refreshToken = req.cookies?.refreshToken;
-    console.log(refreshToken);
     if (!refreshToken) {
       return res.status(401).json({ message: "Your session has expired" });
     }
