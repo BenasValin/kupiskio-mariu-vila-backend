@@ -28,8 +28,6 @@ const store = new MongoStore({
   connectionOptions: {
     ssl: true,
     tls: true,
-    minTlsVersion: 'TLSv1.2',
-    maxTlsVersion: 'TLSv1.3',
     connectTimeoutMS: 30000,
     socketTimeoutMS: 30000,
     retryWrites: true,
