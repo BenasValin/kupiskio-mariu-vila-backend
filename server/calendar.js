@@ -221,12 +221,15 @@ router.post("/delete-range", async (req, res) => {
 
 // Create transporter for sending emails
 const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL,
-    pass: process.env.EMAIL_PASS,
-  },
-});
+    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false, // true for port 465, false for other ports
+    auth: {
+      user: EMAIL,
+      pass: EMAIL_PASS,
+    },
+  });
 
 router.post("/send-email", (req, res) => {
   const { name, surname, email, phoneNumber, contactTime, message } = req.body;
