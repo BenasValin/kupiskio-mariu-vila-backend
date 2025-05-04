@@ -235,12 +235,91 @@ router.post("/send-email", (req, res) => {
   const { name, surname, email, phoneNumber, contactTime, message } = req.body;
   console.log(name);
 
+  // Create HTML email template
+  const htmlContent = `
+      <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          line-height: 1.6;
+          color: #333;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+        .header {
+          background-color: hsl(74, 25%, 35%);
+          color: white;
+          padding: 20px;
+          text-align: center;
+          border-radius: 5px 5px 0 0;
+        }
+        .content {
+          padding: 20px;
+          background-color: #f9f9f9;
+          border-left: 1px solid #ddd;
+          border-right: 1px solid #ddd;
+        }
+        .message-box {
+          background-color: white;
+          border-left: 3px solid #3498db;
+          padding: 15px;
+          margin: 20px 0;
+        }
+        .contact-info {
+          background-color: #f5f5f5;
+          padding: 15px;
+          border-radius: 0 0 5px 5px;
+          border: 1px solid #ddd;
+        }
+        .info-item {
+          margin-bottom: 8px;
+        }
+        .label {
+          font-weight: bold;
+          color: #555;
+        }
+        .alert{
+        	color: red;
+            font-size: 0.75rem;
+            
+        }
+      </style>
+    </head>
+    <body>
+      <div class="header">
+        <h2>Nauja užklausa iš Kupiškio Marių Vilos svetainės</h2>
+      </div>
+      <div class="content">
+        <h3>Klientas: ${name} ${surname}</h3>
+        
+        <div class="message-box">
+          <div class="label">Žinutė:</div>
+          <p>${message}</p>
+        </div>
+      </div>
+      <div class="contact-info">
+        <h3>Kontaktinė informacija</h3>
+        <div class="info-item"><span class="label">Tel. Nr.:</span> ${phoneNumber}</div>
+        <div class="info-item"><span class="label">El. paštas:</span> ${email}</div>
+        <div class="info-item"><span class="label">Pageidaujamas susisiekimo laikas:</span> ${contactTime}</div>
+        <div class="alert">Prašome neatsakyti į šį laišką tiesiogiai, o sukurti naują žinutę į kliento paštą</div>
+      </div>
+    </body>
+    </html>
+  `;
+
   const mailOptions = {
     from: `Vilos klientas: ${name} ${surname}`,
     subject: "Kupiskio Mariu Vilos Uzklausa",
     to: process.env.EMAIL_RECIPIENT,
+    html: htmlContent,
+    // Keep the text version as a fallback for email clients that don't support HTML
     text: `${name} ${surname}
-      ,,${message}"
+      "${message}"
       Kontaktai:
       Tel. Nr.: ${phoneNumber}
       El. paštas.: ${email}
